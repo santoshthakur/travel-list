@@ -17,10 +17,12 @@ const initialItems= [
   }
 ];
 function App() {
-const [items, setItems] =useState(initialItems);
+const [items, setItems] = useState(initialItems);
 const handleAddItem= (item)=>{
   setItems((prevItems) => [...prevItems, item]);
-
+}
+const handleToggleItem= (id)=>{
+  setItems(items=> items.map(item => item.id === id ? {...item, packed: !item.packed}: item))
 }
 const handleDeleteItem=(id)=>{
   console.log(items)
@@ -31,16 +33,16 @@ const handleDeleteItem=(id)=>{
     <div className="App">
       <Header />
       <Form onAddItems={handleAddItem} />
-      <PackingList items={items} onDeleteItem={handleDeleteItem} />
-      <Footer />
+      <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem} />
+      <Footer items={items} />
     </div>
   );
 }
-function PackingList({items,onDeleteItem}){   
+function PackingList({items,onDeleteItem, onToggleItem}){   
   return(
      <div className="list py-6">
       <ul>
-      {items.map((item)=>(<Item item={item} onDeleteItem={onDeleteItem} key={item.id} />))}
+      {items.map((item)=>(<Item item={item} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} key={item.id} />))}
       </ul>
       </div>
   )
