@@ -3,8 +3,8 @@ import './App.css';
 import { Header } from './components/Header';
 import Footer from './components/Footer';
 import Form from './components/Form';
-import Item from './components/Item';
 import { useState } from 'react';
+import PackingList from './components/PackingList';
 const initialItems= [
   {
     id:1, description: "Passport", quantity: 2, packed: true
@@ -18,6 +18,10 @@ const initialItems= [
 ];
 function App() {
 const [items, setItems] = useState(initialItems);
+const handleClear= ()=>{
+  const confirmed =window.confirm('Are you you sure want to delete all items?')
+  if(confirmed) setItems([]);
+}
 const handleAddItem= (item)=>{
   setItems((prevItems) => [...prevItems, item]);
 }
@@ -33,18 +37,10 @@ const handleDeleteItem=(id)=>{
     <div className="App">
       <Header />
       <Form onAddItems={handleAddItem} />
-      <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem} />
+      <PackingList items={items} onDeleteItem={handleDeleteItem} onClearList={handleClear} onToggleItem={handleToggleItem} />
       <Footer items={items} />
     </div>
   );
 }
-function PackingList({items,onDeleteItem, onToggleItem}){   
-  return(
-     <div className="list py-6">
-      <ul>
-      {items.map((item)=>(<Item item={item} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} key={item.id} />))}
-      </ul>
-      </div>
-  )
-}
+
 export default App;
